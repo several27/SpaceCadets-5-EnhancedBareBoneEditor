@@ -11,7 +11,7 @@ public class While implements Statement
 
 	private Variable variable;
 
-	public void execute(String code, Scope scope)
+	public void execute(String code, Scope scope, boolean skip)
 	{
 		Matcher matcher = Pattern.compile(regexPattern).matcher(code);
 
@@ -29,24 +29,30 @@ public class While implements Statement
 			{
 				scope.index++;
 
-				int startLine = scope.index;
+				int startLine = scope.index, endLine;
 				Scope childScope = new Scope(scope);
 
-				int endLine = childScope.execute();
-
-				while (!variable.getValue().equals(BigInteger.ZERO))
+				if (skip || variable.getValue().equals(BigInteger.ZERO))
 				{
-					childScope.index = startLine;
+					endLine = childScope.execute(true);
+				}
+				else
+				{
 					endLine = childScope.execute();
 
-					if (endLine == startLine)
-						break;
+					while (!variable.getValue().equals(BigInteger.ZERO))
+					{
+						childScope.index = startLine;
+						endLine = childScope.execute();
+
+						if (endLine == startLine)
+							break;
+					}
 				}
 
 				scope.index = endLine;
 			}
 			catch (Exception e) {}
-
 		}
 	}
 }

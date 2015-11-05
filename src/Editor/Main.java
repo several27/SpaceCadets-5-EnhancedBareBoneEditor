@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 public class Main extends Application
 {
     private static final String[] KEYWORDS = new String[] {
-            "clear", "incr", "decr", "while", "not", "do", "end"
+            "clear", "incr", "decr", "while", "not", "do", "end", "if", "copy", "to"
     };
 
     private static final String KEYWORD_PATTERN   = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
@@ -61,7 +61,9 @@ public class Main extends Application
 	    Menu codeSamplesMenu = new Menu("Code Samples");
 	    MenuItem loopMenuItem = new MenuItem("Simple Loop");
 	    MenuItem multiplyMenuItem = new MenuItem("Multiply X * Y");
-	    codeSamplesMenu.getItems().addAll(loopMenuItem, multiplyMenuItem);
+	    MenuItem simpleIfMenuItem = new MenuItem("Simple If");
+	    MenuItem nthFibonacciNumberMenuItem = new MenuItem("(n - 1)th Fibonacci Number");
+	    codeSamplesMenu.getItems().addAll(loopMenuItem, multiplyMenuItem, simpleIfMenuItem, nthFibonacciNumberMenuItem);
 
 	    Menu runMenu = new Menu("Run");
 	    MenuItem runMenuItem = new MenuItem("Run");
@@ -87,7 +89,17 @@ public class Main extends Application
 	    });
 
 	    multiplyMenuItem.setOnAction(actionEvent -> {
-		    codeArea.replaceText(0, codeArea.getLength(), CodeSamples.mutiplyXTimesY);
+		    codeArea.replaceText(0, codeArea.getLength(), CodeSamples.multiplyXTimesY);
+		    runMenuItem.fire();
+	    });
+
+	    simpleIfMenuItem.setOnAction(actionEvent -> {
+		    codeArea.replaceText(0, codeArea.getLength(), CodeSamples.simpleIf);
+		    runMenuItem.fire();
+	    });
+
+	    nthFibonacciNumberMenuItem.setOnAction(actionEvent -> {
+		    codeArea.replaceText(0, codeArea.getLength(), CodeSamples.nthFibonacciNumber);
 		    runMenuItem.fire();
 	    });
 
@@ -149,8 +161,10 @@ public class Main extends Application
 			    long startTime = System.currentTimeMillis();
 
 			    Debug.messages.clear();
+			    mainCodeScope = new Scope();
 			    mainCodeScope.code = codeArea.getText();
 			    mainCodeScope.index = 0;
+			    mainCodeScope.removeComments();
 			    mainCodeScope.execute();
 
 			    executionTimeToolbar.setText("Execution Time: " + (System.currentTimeMillis() - startTime) + "ms");

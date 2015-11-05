@@ -15,9 +15,11 @@ public class Scope
 	public static void initialize()
 	{
 		availableStatements.add(While.class);
+		availableStatements.add(If.class);
 		availableStatements.add(Clear.class);
 		availableStatements.add(Increment.class);
 		availableStatements.add(Decrement.class);
+		availableStatements.add(Copy.class);
 	}
 
 	public  ArrayList<Variable>  variables  = new ArrayList<>();
@@ -78,6 +80,11 @@ public class Scope
 
 	public int execute() throws Exception
 	{
+		return execute(false);
+	}
+
+	public int execute(boolean skip) throws Exception
+	{
 		String statements[] = code.split(";");
 //		System.out.println("Start: " + index);
 		while (index < statements.length)
@@ -100,7 +107,7 @@ public class Scope
 				if (numberOfSubMatches > 0)
 				{
 					Statement statementInstance = availableStatement.newInstance();
-					statementInstance.execute(statement, this);
+					statementInstance.execute(statement, this, skip);
 					statementRecognized = true;
 					break;
 				}
@@ -120,5 +127,14 @@ public class Scope
 		}
 
 		return statements.length;
+	}
+
+	public void removeComments()
+	{
+		String lines[] = code.split("\n");
+		for (int i = 0; i < lines.length; i++)
+		{
+			System.out.println(lines[i]);
+		}
 	}
 }

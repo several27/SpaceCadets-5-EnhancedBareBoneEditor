@@ -11,12 +11,14 @@ public class Decrement implements Statement
 
 	private Variable variable;
 
-	public void execute(String code, Scope scope)
+	public void execute(String code, Scope scope, boolean skip)
 	{
 		Matcher matcher = Pattern.compile(regexPattern).matcher(code);
 
 		while (matcher.find())
 		{
+			if (skip) break;
+
 			variable = scope.getVariable(matcher.group(1));
 
 			if (variable == null)
