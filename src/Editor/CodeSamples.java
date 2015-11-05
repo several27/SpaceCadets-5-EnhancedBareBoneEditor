@@ -52,16 +52,16 @@ public class CodeSamples
 	                                                "incr G;\n" +
 	                                                "\n" +
 	                                                "while N not 0 do;\n" +
-	                                                "  copy G to H;\n" +
-	                                                "  while F not 0 do;\n" +
-	                                                "    incr H;\n" +
-	                                                "    decr F;\n" +
-	                                                "  end;\n" +
+	                                                "\tcopy G to H;\n" +
+	                                                "\twhile F not 0 do;\n" +
+	                                                "\t\tincr H;\n" +
+	                                                "\t\tdecr F;\n" +
+	                                                "\tend;\n" +
 	                                                "\n" +
-	                                                "  copy G to F;\n" +
-	                                                "  copy H to G;\n" +
+	                                                "\tcopy G to F;\n" +
+	                                                "\tcopy H to G;\n" +
 	                                                "\n" +
-	                                                "  decr N;\n" +
+	                                                "\tdecr N;\n" +
 	                                                "end;\n" +
 	                                                "\n" +
 	                                                "H is fibonacci number\n" +

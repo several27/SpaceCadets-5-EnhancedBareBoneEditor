@@ -19,6 +19,7 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.StyleSpans;
 import org.fxmisc.richtext.StyleSpansBuilder;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.Collection;
@@ -221,6 +222,7 @@ public class Main extends Application
         launch(args);
     }
 
+	@NotNull
 	private String readFile(File file)
 	{
 		StringBuilder stringBuffer = new StringBuilder();
